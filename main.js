@@ -44,6 +44,8 @@ setInterval(() => {
         canvasElements[0].moveRight();
     }
     redraw();
+    document.querySelector('#xpos').textContent = 'xPos: ' + canvasElements[0].xCoord;
+    document.querySelector('#ypos').textContent = 'yPos: ' + canvasElements[0].yCoord;
 }, 1000/30);
 
 document.addEventListener('keydown', (event) => {
@@ -89,25 +91,36 @@ document.addEventListener('keyup', (event) => {
 
 
 function PlayerBlock(xpos,ypos) {
-    this.xCoord = xpos*BLOCKSIZE + 7;
-    this.yCoord = ypos*BLOCKSIZE + 7;
+    this.xCoord = xpos*BLOCKSIZE;
+    this.yCoord = ypos*BLOCKSIZE;
     this.draw = () => {
         ctx.fillStyle = "#FFC000";
-        ctx.beginPath();
-        ctx.arc(this.xCoord,this.yCoord,7,0,2*Math.PI);
-        ctx.fill();
+        if (this.xCoord == -15) {
+            this.xCoord = 464;
+        } else if (this.xCoord == 465) {
+            this.xCoord = -14;
+        }
+        ctx.fillRect(this.xCoord, this.yCoord, BLOCKSIZE, BLOCKSIZE);
     }
     this.moveUp = () => {
-        this.yCoord--;
+        if (grid[Math.floor((this.yCoord-1)/BLOCKSIZE)][Math.floor((this.xCoord)/BLOCKSIZE)] != 1 && grid[Math.floor((this.yCoord-1)/BLOCKSIZE)][Math.floor((this.xCoord+BLOCKSIZE-1)/BLOCKSIZE)] != 1) {
+            this.yCoord--;
+        }
     }
     this.moveDown = () => {
-        this.yCoord++;
+        if (grid[Math.floor((this.yCoord+BLOCKSIZE)/BLOCKSIZE)][Math.floor((this.xCoord)/BLOCKSIZE)] != 1 && grid[Math.floor((this.yCoord+BLOCKSIZE)/BLOCKSIZE)][Math.floor((this.xCoord+BLOCKSIZE-1)/BLOCKSIZE)] != 1) {
+            this.yCoord++;
+        }
     }
     this.moveLeft = () => {
-        this.xCoord--;
+        if (grid[Math.floor((this.yCoord)/BLOCKSIZE)][Math.floor((this.xCoord-1)/BLOCKSIZE)] != 1 && grid[Math.floor((this.yCoord+BLOCKSIZE-1)/BLOCKSIZE)][Math.floor((this.xCoord-1)/BLOCKSIZE)] != 1) {
+            this.xCoord--;
+        }
     }
     this.moveRight = () => {
-        this.xCoord++;
+        if (grid[Math.floor((this.yCoord)/BLOCKSIZE)][Math.floor((this.xCoord+BLOCKSIZE)/BLOCKSIZE)] != 1 && grid[Math.floor((this.yCoord+BLOCKSIZE-1)/BLOCKSIZE)][Math.floor((this.xCoord+BLOCKSIZE)/BLOCKSIZE)] != 1) {
+            this.xCoord++;
+        }
     }
 }
 
