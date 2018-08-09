@@ -3,6 +3,7 @@ const template = csv.replace(/,/g,'');
 var grid = new Array(21);
 const BLOCKSIZE = 15;
 var canvasElements = [];
+var canvasCoins = [];
 
 let count = 0;
 for (i = 0; i < 21; i++) {
@@ -21,6 +22,8 @@ for (i = 0; i < 21; i++) {
     for (j = 0; j < 31; j++) {
         if (grid[i][j] == 1) {
             canvasElements.push(new SolidBlock(j,i));
+        } else if (i != 12 || j != 15) {
+            canvasCoins.push(new CoinBlock(j,i));
         }
     }
 }
@@ -37,7 +40,6 @@ upKey = downKey = leftKey = rightKey = false;
 
 setInterval(() => {
     if (!movingSound && (upKey || downKey || leftKey || rightKey)) {
-        console.log('movingSound');
         movingSound = true;
         moveSound.loop = true;
         moveSound.play();
@@ -151,9 +153,21 @@ function SolidBlock(xpos, ypos) {
     }
 }
 
+function CoinBlock(xpos, ypos) {
+    this.xCoord = xpos*BLOCKSIZE+6;
+    this.yCoord = ypos*BLOCKSIZE+6;
+    this.draw = () => {
+        ctx.fillStyle = "#FFDF00";
+        ctx.fillRect(this.xCoord, this.yCoord, 3, 3);
+    }
+}
+
 function redraw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvasElements.forEach(canvasElement => {
         canvasElement.draw();
     });
+    canvasCoins.forEach(canvasCoin => {
+        canvasCoin.draw();
+    })
 }
