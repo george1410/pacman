@@ -95,10 +95,10 @@ function PlayerBlock(xpos,ypos) {
     this.yCoord = ypos*BLOCKSIZE;
     this.draw = () => {
         ctx.fillStyle = "#FFC000";
-        if (this.xCoord == -15) {
-            this.xCoord = 464;
-        } else if (this.xCoord == 465) {
-            this.xCoord = -14;
+        if (this.xCoord == 0-BLOCKSIZE) {
+            this.xCoord = 31*BLOCKSIZE-1;
+        } else if (this.xCoord == 31*BLOCKSIZE) {
+            this.xCoord = 0-BLOCKSIZE+1;
         }
         ctx.fillRect(this.xCoord, this.yCoord, BLOCKSIZE, BLOCKSIZE);
     }
