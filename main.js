@@ -27,10 +27,28 @@ for (i = 0; i < 21; i++) {
 
 redraw();
 
+var startUpSound = new Audio('start.wav');
+startUpSound.play();
+var moveSound = new Audio('move.wav');
+var movingSound = false;
+
 var upKey, downKey, leftKey, rightKey;
 upKey = downKey = leftKey = rightKey = false;
 
 setInterval(() => {
+    if (!movingSound && (upKey || downKey || leftKey || rightKey)) {
+        console.log('movingSound');
+        movingSound = true;
+        moveSound.loop = true;
+        moveSound.play();
+    }
+
+    if (movingSound && !upKey && !downKey && !leftKey && !rightKey) {
+        moveSound.pause();
+        movingSound = false;
+        moveSound.currentTime = 0;
+    }
+
     if (upKey) {
         canvasElements[0].moveUp();
     }
