@@ -148,7 +148,7 @@ function SolidBlock(xpos, ypos) {
     this.xCoord = xpos*BLOCKSIZE;
     this.yCoord = ypos*BLOCKSIZE;
     this.draw = () => {
-        ctx.fillStyle = "#000000";
+        ctx.fillStyle = "#002563";
         ctx.fillRect(this.xCoord, this.yCoord, BLOCKSIZE, BLOCKSIZE);
     }
 }
@@ -164,10 +164,12 @@ function CoinBlock(xpos, ypos) {
 
 function redraw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    canvasCoins.forEach(canvasCoin => {
+        canvasCoin.draw();
+    });
     canvasElements.forEach(canvasElement => {
         canvasElement.draw();
     });
-    canvasCoins.forEach(canvasCoin => {
-        canvasCoin.draw();
-    })
 }
